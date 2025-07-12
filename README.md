@@ -128,10 +128,10 @@ For production deployments:
 
 ## 🖼️ Screenshots
 
-### 🧾 Web UI - Upload & Progress
+### 🧾 Web UI - Information
 ![Upload UI](screenshots/screenshot_1.png)
 
-### 🧼 Web UI - Results & Download
+### 🧼 Web UI - Upload & Download
 ![Download Result](screenshots/screenshot_2.png)
 
 ### ⚙️ Rules Tab - Custom Regex
