@@ -1,0 +1,11 @@
+services:
+  app:
+    container_name: sanitizer
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./logs:/app/logs
+      - ./outputs:/app/outputs
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
+    restart: unless-stopped

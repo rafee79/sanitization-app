@@ -1,0 +1,7 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+Curabitur ut vehicula mauris. This is a test file containing various patterns.
+Example IP address: 203.0.113.5 should be replaced.
+Contact us at sales@company.com for more info.
+Or reach out to support@company.org if you have technical problems.
+This mentions Windows vulnerabilities and also references Active Directory security policies.
+End of test content.
