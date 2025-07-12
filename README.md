@@ -29,15 +29,13 @@ Built for internal use by small teams to automate text scrubbing and safe repack
 
 ### Standalone Server (Dev Mode)
 
-> Requires Python 3.7+ and system `7z`
-
 ```bash
 # Install dependencies
-pip3 install flask python-magic cryptography
+pip3 install flask
 
-# On Debian/Ubuntu: install p7zip
-# Used only if built-in extraction fails or doesn’t support a format
-sudo apt-get install p7zip-full
+# On Debian/Ubuntu: install p7zip openssl
+# 7z used only if built-in extraction fails or doesn’t support a format
+sudo apt-get install p7zip-full openssl
 
 # Start the server with HTTPS (self-signed cert auto-generated if missing)
 python3 sanitization_app.py --serve
