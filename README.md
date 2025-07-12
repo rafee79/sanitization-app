@@ -100,10 +100,10 @@ REPL_CHAR      = 'XXX'   # Replacement string for matches and invalid filename c
 
 ### SSL Certificates
 
-- Default self-signed certs are created as:
+- On first run, default self-signed certificates are generated as:
   - `cert.pem`
   - `key.pem`
-- Replace with your own cert/key in the root directory.
+- Replace with your own cert/key in the project root directory.
 
 ---
 
