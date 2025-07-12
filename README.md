@@ -33,7 +33,7 @@ Built for internal use by small teams to automate text scrubbing and safe repack
 # Install dependencies
 pip3 install flask
 
-# On Debian/Ubuntu: install p7zip openssl
+# On Debian/Ubuntu:
 # 7z used only if built-in extraction fails or doesn’t support a format
 sudo apt-get install p7zip-full openssl
 
