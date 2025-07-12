@@ -31,11 +31,11 @@ Built for internal use by small teams to automate text scrubbing and safe repack
 
 ```bash
 # Install dependencies
-pip3 install flask
+pip3 install flask cryptography
 
 # On Debian/Ubuntu:
 # 7z used only if built-in extraction fails or doesn’t support a format
-sudo apt-get install p7zip-full openssl
+sudo apt-get install p7zip-full
 
 # Start the server with HTTPS (self-signed cert auto-generated if missing)
 python3 sanitization_app.py --serve
