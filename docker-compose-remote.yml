@@ -9,4 +9,6 @@ services:
       - ./outputs:/app/outputs
       - ./uploads:/app/uploads
       - ./temp:/app/temp
+      - ./cert.pem:/app/cert.pem
+      - ./key.pem:/app/key.pem
     restart: unless-stopped

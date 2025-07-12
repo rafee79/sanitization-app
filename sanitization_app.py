@@ -9,6 +9,10 @@ from pathlib import Path
 from flask import Flask, request, jsonify, send_from_directory, send_file, session, render_template_string
 from logging.handlers import RotatingFileHandler
 from concurrent.futures import ThreadPoolExecutor
+from cryptography import x509
+from cryptography.x509.oid import NameOID
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
 
 # --- Config ---
 MAX_UPLOAD_MB = 100         # Maximum upload file size in MB
@@ -42,11 +46,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s:%(message)s"
 )
-
-from cryptography import x509
-from cryptography.x509.oid import NameOID
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
 
 def ensure_selfsigned_certs():
     """Ensure development self-signed certificates are present."""
