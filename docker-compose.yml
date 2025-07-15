@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: . 
+    container_name: sanitizer
+    ports:
+      - "8443:8443"
+    volumes:
+      - ./logs:/app/logs
+      - ./outputs:/app/outputs
+      - ./uploads:/app/uploads
+      - ./temp:/app/temp
+      - ./certs:/app/certs
+    restart: unless-stopped

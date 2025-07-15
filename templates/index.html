@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>Sanitization App</title>
+        <style>
+            body {
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                background: #f4f6f8;
+                color: #222;
+            }
+            .container {
+                max-width: 900px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                overflow: hidden;
+            }
+            header {
+                display: flex;
+                align-items: center;
+                padding: 20px 24px 12px 24px;
+            }
+            header img {
+                height: 60px;
+                margin-right: 20px;
+            }
+            header h1 {
+                flex: 1;
+                font-size: 1.5rem;
+                color: #111;
+            }
+            nav {
+                display: flex;
+                border-bottom: 1px solid #e0e0e0;
+                background: #fff;
+            }
+            nav button {
+                flex: 1;
+                padding: 15px;
+                font-size: 1rem;
+                background: none;
+                border: none;
+                border-bottom: 3px solid transparent;
+                cursor: pointer;
+                transition: border-color 0.2s;
+                color: #222;
+            }
+            nav button.active {
+                border-bottom-color: #111;
+                color: #111;
+                font-weight: 600;
+                background: #fff;
+            }
+            .tab {
+                display: none;
+                padding: 24px;
+            }
+            .tab.active {
+                display: block;
+            }
+            h2 {
+                margin-bottom: 15px;
+                font-size: 1.25rem;
+            }
+            p,
+            ul {
+                margin-bottom: 15px;
+                line-height: 1.6;
+            }
+            ul {
+                margin-left: 20px;
+            }
+            input[type="file"],
+            textarea {
+                width: 100%;
+                min-width: 100%;
+                max-width: 100%;
+                padding: 10px;
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 1rem;
+                background: #fafafa;
+                box-sizing: border-box;
+            }
+            textarea {
+                resize: none;
+                height: 150px;
+            }
+            progress {
+                width: 100%;
+                margin-bottom: 10px;
+                display: block;
+            }
+            button.primary {
+                background: #111;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+            button.primary:hover {
+                background: #444;
+            }
+            .status-output {
+                background: #fafafa;
+                padding: 15px;
+                border: 1px solid #e0e0e0;
+                border-radius: 4px;
+                white-space: pre-wrap;
+                margin-top: 10px;
+            }
+            .file-pill {
+                display: inline-block;
+                background: #eee;
+                color: #222;
+                border-radius: 20px;
+                padding: 6px 16px;
+                margin: 0 8px 8px 0;
+                font-size: 0.97em;
+                border: 1px solid #ccc;
+            }
+            .error {
+                color: #c00;
+            }
+            .download-link {
+                display: inline-flex;
+                align-items: center;
+                color: #111;
+                text-decoration: none;
+                font-weight: 500;
+                margin-bottom: 8px;
+                margin-top: 4px;
+            }
+            .download-icon {
+                font-size: 1.2em;
+                margin-left: 8px;
+                margin-bottom: -1px;
+            }
+            .info-email {
+                color: #111;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            .info-email:hover {
+                color: #111;
+                text-decoration: none;
+            }
+            footer {
+                text-align: center;
+                padding: 15px;
+                background: #f4f6f8;
+                font-size: 0.9rem;
+                color: #777;
+                border-top: 1px solid #e0e0e0;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <img src="logo.png" alt="Logo" />
+                <h1>Sanitization App</h1>
+            </header>
+            <nav>
+                <button data-tab="info" class="active">Information</button>
+                <button data-tab="upload">Upload</button>
+                <button data-tab="rules">Rules</button>
+            </nav>
+            <!-- --- Info Tab --- -->
+            <div id="info" class="tab active">
+                <h2>Overview</h2>
+                <p>
+                    The Sanitization App applies pre-defined or custom regex
+                    rules to sanitize files (including nested archives) and
+                    repackages them for download. Max upload size: {{ max_mb }}
+                    MB.
+                </p>
+                <h2>Upload Tab</h2>
+                <p>
+                    Select up to {{ max_files }} files (txt, log, zip, rar, 7z,
+                    tar, tgz, gz, bz2, xz, lz, zst) and click
+                    <code>Upload</code>. You’ll see per-file progress, then a
+                    <code>Download</code> link with stats. <br /><strong
+                        >Important:</strong
+                    >
+                    Do not refresh or close your browser during processing. If
+                    you do, note your Job ID—Helpdesk can retrieve your file
+                    status by that ID.
+                </p>
+                <h2>Rules Tab</h2>
+                <p>
+                    View default patterns (with comments) or override by adding
+                    one regex per line—valid only for the session.
+                </p>
+                <h2>Help</h2>
+                <p>
+                    For assistance, contact
+                    <a href="mailto:helpdesk@company.com" class="info-email"
+                        >helpdesk@company.com</a
+                    >
+                </p>
+            </div>
+            <!-- --- Upload Tab --- -->
+            <div id="upload" class="tab">
+                <h2>Upload File</h2>
+                <input
+                    type="file"
+                    id="fileInput"
+                    name="file"
+                    multiple
+                    accept=".txt,.log,.zip,.rar,.7z,.tar,.tgz,.gz,.bz2,.xz,.lz,.zst"
+                />
+                <div id="fileList"></div>
+                <progress
+                    id="uploadProgress"
+                    value="0"
+                    max="100"
+                    title="Uploading 0%"
+                ></progress>
+                <button class="primary" id="uploadBtn">Upload</button>
+                <div id="uploadResult" aria-live="polite"></div>
+            </div>
+            <!-- --- Rules Tab --- -->
+            <div id="rules" class="tab">
+                <h2>Active Rules</h2>
+                <pre
+                    id="badWordsList"
+                    style="width: 100%; box-sizing: border-box"
+                >
+Loading patterns…</pre
+                >
+                <p>
+                    If you want to override, add one regex per line (valid only
+                    for the current session):
+                </p>
+                <textarea
+                    id="rulesTxt"
+                    placeholder="Override patterns here, one per line…"
+                    style="width: 100%; box-sizing: border-box"
+                ></textarea>
+                <button class="primary" id="setRulesBtn">Update Rules</button>
+                <div
+                    id="rulesResult"
+                    class="status-output"
+                    aria-live="polite"
+                ></div>
+            </div>
+            <footer>© 2025 by Company</footer>
+        </div>
+        <script>
+            // --- Tab Navigation ---
+            document.querySelector("nav").addEventListener("click", (e) => {
+                if (e.target.tagName !== "BUTTON") return;
+                document
+                    .querySelectorAll("nav button, .tab")
+                    .forEach((el) => el.classList.remove("active"));
+                e.target.classList.add("active");
+                document
+                    .getElementById(e.target.dataset.tab)
+                    .classList.add("active");
+            });
+
+            // --- Pattern Loader ---
+            function loadDefaults() {
+                fetch("/bad_words")
+                    .then((r) =>
+                        r.ok ? r.json() : Promise.reject(r.statusText),
+                    )
+                    .then((j) => {
+                        document.getElementById("badWordsList").innerText =
+                            j.lines.join("\n");
+                    })
+                    .catch(() => {
+                        document.getElementById("badWordsList").innerText =
+                            "Could not load patterns.";
+                    });
+            }
+            loadDefaults();
+
+            // --- File Input Reflection (file pills) ---
+            const fileInput = document.getElementById("fileInput");
+            fileInput.addEventListener("change", () => {
+                const list = document.getElementById("fileList");
+                list.innerHTML = "";
+                Array.from(fileInput.files).forEach((f) => {
+                    const pill = document.createElement("span");
+                    pill.className = "file-pill";
+                    pill.textContent = f.name;
+                    list.appendChild(pill);
+                });
+            });
+
+            // --- Upload Handler with per-file status and download ---
+            document
+                .getElementById("uploadBtn")
+                .addEventListener("click", async () => {
+                    const files = Array.from(fileInput.files);
+                    if (!files.length) return alert("Select files");
+                    if (files.length > 5) return alert("Max 5 files");
+                    document.getElementById("uploadResult").innerHTML = ""; // Clear previous
+                    const prog = document.getElementById("uploadProgress");
+                    for (const f of files) {
+                        // --- Create a dedicated block for this file's result
+                        const out = document.createElement("div");
+                        out.className = "status-output";
+                        out.innerHTML = `Uploading ${f.name}…<br>`;
+                        document
+                            .getElementById("uploadResult")
+                            .appendChild(out);
+
+                        prog.value = 0;
+                        prog.title = `Uploading 0%`;
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "/upload");
+                        xhr.upload.onprogress = (e) => {
+                            if (e.lengthComputable) {
+                                const pct = Math.round(
+                                    (e.loaded / e.total) * 100,
+                                );
+                                prog.value = pct;
+                                prog.title = `Uploading ${pct}%`;
+                            }
+                        };
+                        xhr.onload = () => {
+                            const res = JSON.parse(xhr.responseText);
+                            if (res.error) {
+                                out.innerHTML += `<span class="error">Error: ${res.error}</span><br>`;
+                            } else {
+                                out.innerHTML += `Job ID: ${res.job_id}<br>`;
+                                poll(res.job_id, f.name, out);
+                            }
+                        };
+                        const fd = new FormData();
+                        fd.append("file", f);
+                        xhr.send(fd);
+                    }
+                });
+
+            // --- Status Polling with Tick Logic ---
+            function poll(job_id, filename, out) {
+                let lastStatus = "";
+                const iv = setInterval(async () => {
+                    const d = await fetch(`/status/${job_id}`).then((r) =>
+                        r.json(),
+                    );
+                    if (d.status !== "Done") {
+                        out.innerHTML = `Processing <b>${filename}</b>...<br>Job ID: ${job_id}<br>Status: ${d.status}<br>`;
+                        lastStatus = d.status;
+                    }
+                    if (d.status === "Done") {
+                        // Only show download if download link is present and at least one replacement
+                        if (d.download && d.total_replacements > 0) {
+                            const link = window.location.origin + d.download;
+                            out.innerHTML = `<a href="${link}" target="_blank" class="download-link">Download sanitized result <span class="download-icon">✔️</span></a><br>`;
+                        } else {
+                            out.innerHTML = `<b>No replacements found. No file generated.</b><br>`;
+                        }
+                        out.innerHTML += `<strong>Per-file stats:</strong><br>`;
+                        d.file_stats.forEach((s) => {
+                            out.innerHTML += `• ${s.file}: ${s.replacements} replacements, ${s.duration.toFixed(2)}s<br>`;
+                        });
+                        out.innerHTML += `<br>Job ID: ${job_id}`;
+                        clearInterval(iv);
+                    }
+                }, 2000);
+            }
+
+            // --- Rules Handler ---
+            document
+                .getElementById("setRulesBtn")
+                .addEventListener("click", async () => {
+                    const rules = document
+                        .getElementById("rulesTxt")
+                        .value.split("\n")
+                        .map((l) => l.trim())
+                        .filter((l) => l);
+                    const res = await fetch("/set_rules", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ rules }),
+                    }).then((r) => r.json());
+                    const resultEl = document.getElementById("rulesResult");
+                    if (res.error) {
+                        resultEl.innerHTML = `<span class="error">Error: ${res.error}</span>`;
+                        return;
+                    }
+                    resultEl.innerText = res.status;
+                    if (rules.length === 0) {
+                        loadDefaults();
+                    } else {
+                        document.getElementById("badWordsList").innerText =
+                            rules.join("\n");
+                    }
+                });
+        </script>
+    </body>
+</html>

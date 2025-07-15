@@ -1,0 +1,5 @@
+\b(?:\d{1,3}\.){3}\d{1,3}\b                        # IP addresses
+\b[\w\.-]+@(?:company\.com|company\.org)\b         # Emails from company.com or company.org
+\b(?: company\.com|company\.org)\b                 # The domains themselves
+\bWindows\b                                        # Key Word 1
+\bActive Directory\b                               # Key Word 2
